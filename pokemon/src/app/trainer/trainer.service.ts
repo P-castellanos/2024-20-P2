@@ -1,21 +1,22 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment }from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Trainer } from './Trainer';
-
+import { dataTrainers } from './dataTrainers';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class TrainerService {
-  private apiUrl: string = environment.baseUrl + 'trainer';
 
+  constructor() {}
 
-  constructor(private http: HttpClient) { } 
   getTrainers(): Observable<Trainer[]> {
-    return this.http.get<Trainer[]>(this.apiUrl);
+    return of(dataTrainers);
   }
 
+  getTrainer(id: string): Observable<Trainer | undefined> {
+    const trainer = dataTrainers.find(tr => tr.id === Number(id));
+    return of(trainer);
+  }
 }
+
